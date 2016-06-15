@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
+
+
+    <script src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" id="sap-ui-bootstrap" data-sap-ui-libs="sap.ui.commons,sap.ui.table,sap.m" data-sap-ui-theme="sap_bluecrystal">
+    </script>
+    <!-- add sap.ui.table,sap.ui.ux3 and/or other libraries to 'data-sap-ui-libs' if required -->
+
+    <script>
+        var oModel = new sap.ui.model.json.JSONModel();
+        var dynamicProperties = [];
+        oModel.setData(dynamicProperties);
+
+        var aColumn = [
+            new sap.m.Column({
+                header: new sap.m.Label({
+                    text: "Name",
+                    design: "Bold"
+                })
+            }),
+            new sap.m.Column({
+                header: new sap.m.Label({
+                    text: "Namespace",
+                    design: "Bold"
+                })
+            }),
+            new sap.m.Column({
+                header: new sap.m.Label({
+                    text: "Value",
+                    design: "Bold"
+                })
+            }),
+			new sap.m.Column({
+                width:"10%"
+            })
+        ];
+        var oTemplate = new sap.m.ColumnListItem({
+            cells: [
+                new sap.m.Input({
+                    value: "{name}"
+                }),
+                new sap.m.Input({
+                    value: "{namespace}"
+                }),
+                new sap.m.Input({
+                    value: "{value}"
+                }),
+				new sap.m.Button({
+                    text:"delete",
+					press : function(oEvent){
+						var spath = oEvent.getSource().getBindingContext().sPath;
+						var idx = spath.slice(-1);
+						if(idx!== -1)
+						{
+							var m = oTable.getModel();
+							var data = m.getData();
+							var removed = data.splice(idx, 1);
+							m.setData(data)
+						}
+					}
+                })
+            ]
+        });
+        var oHeaderToolbar = new sap.m.Toolbar({
+            content: [
+                new sap.m.ToolbarSpacer(),
+                new sap.m.Button({
+                    text: "add",
+                    type: sap.m.ButtonType.Accept,
+                    press: function() {
+                        dynamicProperties = sap.ui.getCore().byId('tablepd').getModel().getData();
+                        var newEntry = new Object();
+                        newEntry.name = "";
+                        newEntry.namespace = "";
+                        newEntry.value = "";
+                        dynamicProperties.push(newEntry);
+                        sap.ui.getCore().byId('tablepd').getModel().setData(dynamicProperties);
+                        console.log(oModel);
+                    },
+
+                }),
+            ]
+        });
+
+        var oTable = new sap.m.Table({
+            id: "tablepd",
+            headerToolbar: oHeaderToolbar,
+            columns: aColumn,
+            growing: true
+        });
+        oTable.bindItems("/", oTemplate);
+        oTable.setModel(oModel);
+
+        var page = sap.m.Page({
+            title: "Tracking Services",
+            content: oTable,
+            showNavButton: true,
+            navButtonTap: function() {
+                
+            }
+        });
+        var app = sap.m.App();
+        app.addPage(page);
+        app.setBackgroundImage("img/3.jpg");
+
+        app.placeAt("content");
+    </script>
+
+</head>
+
+<body class="sapUiBody" role="application">
+    <div id="content"></div>
+</body>
+
+</html>
