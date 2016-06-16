@@ -107,8 +107,7 @@
 						type: "Emphasized",
 						press: function(){
 							var cn1 = JSON.stringify(oTable.getModel().getData());
-							console.log(cn1);
-							new sap.m.MessageToast.show(cn1, {
+							sap.m.MessageToast.show(cn1, {
 								duration: 10000,                 
 								my: "center center",             
 								at: "center center",             
