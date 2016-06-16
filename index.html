@@ -6,11 +6,7 @@
     <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
 
 
-    <script 
-    	src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" 
-    	id="sap-ui-bootstrap" 
-    	data-sap-ui-libs="sap.ui.commons,sap.ui.table,sap.m"
-    	data-sap-ui-theme="sap_bluecrystal">
+    <script src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" id="sap-ui-bootstrap" data-sap-ui-libs="sap.ui.commons,sap.ui.table,sap.m" data-sap-ui-theme="sap_bluecrystal">
     </script>
     <!-- add sap.ui.table,sap.ui.ux3 and/or other libraries to 'data-sap-ui-libs' if required -->
 
@@ -22,52 +18,51 @@
         var aColumn = [
             new sap.m.Column({
                 header: new sap.m.Label({
+                    text: "ID",
+                    design: "Bold"
+                })
+            }),
+            new sap.m.Column({
+                header: new sap.m.Label({
                     text: "Name",
                     design: "Bold"
                 })
             }),
             new sap.m.Column({
                 header: new sap.m.Label({
-                    text: "Namespace",
+                    text: "Email",
                     design: "Bold"
                 })
             }),
             new sap.m.Column({
-                header: new sap.m.Label({
-                    text: "Value",
-                    design: "Bold"
-                })
-            }),
-			new sap.m.Column({
-                width:"10%"
+                width: "10%"
             })
         ];
         var oTemplate = new sap.m.ColumnListItem({
             cells: [
                 new sap.m.Input({
+                    value: "{id}"
+                }),
+                new sap.m.Input({
                     value: "{name}"
                 }),
                 new sap.m.Input({
-                    value: "{namespace}"
+                    value: "{email}"
                 }),
-                new sap.m.Input({
-                    value: "{value}"
-                }),
-		new sap.m.Button({
+                new sap.m.Button({
                     //text:"delete",
-                    icon:"sap-icon://delete",
-                    type:"Reject",
-			press : function(oEvent){
-				var spath = oEvent.getSource().getBindingContext().sPath;
-				var idx = spath.slice(-1);
-				if(idx!== -1)
-				{
-					var m = oTable.getModel();
-					var data = m.getData();
-					data.splice(idx, 1);
-					m.setData(data)
-				}
-			}
+                    icon: "sap-icon://delete",
+                    type: "Reject",
+                    press: function(oEvent) {
+                        var spath = oEvent.getSource().getBindingContext().sPath;
+                        var idx = spath.slice(-1);
+                        if (idx !== -1) {
+                            var m = oTable.getModel();
+                            var data = m.getData();
+                            data.splice(idx, 1);
+                            m.setData(data)
+                        }
+                    }
                 })
             ]
         });
@@ -76,19 +71,17 @@
                 new sap.m.ToolbarSpacer(),
                 new sap.m.Button({
                     //text: "add",
-                    icon:"sap-icon://add",
+                    icon: "sap-icon://add",
                     type: sap.m.ButtonType.Accept,
                     press: function() {
-                        dynamicProperties = sap.ui.getCore().byId('tablepd').getModel().getData();
+                        dynamicProperties = oTable.getModel().getData();
                         var newEntry = new Object();
+                        newEntry.id = "";
                         newEntry.name = "";
-                        newEntry.namespace = "";
-                        newEntry.value = "";
+                        newEntry.email = "";
                         dynamicProperties.push(newEntry);
-                        sap.ui.getCore().byId('tablepd').getModel().setData(dynamicProperties);
-                        console.log(oModel);
-                    },
-
+                        oTable.getModel().setData(dynamicProperties);
+                    }
                 }),
             ]
         });
@@ -104,11 +97,31 @@
 
         var page = sap.m.Page({
             title: "Dynamic Table",
-            content: oTable
+            content: oTable,
+            footer: new sap.m.Toolbar({
+                content:[
+					new sap.m.ToolbarSpacer(),
+					new sap.m.Button({
+						text: "SAVE",
+						icon: "sap-icon://save",
+						type: "Emphasized",
+						press: function(){
+							var cn1 = JSON.stringify(oTable.getModel().getData());
+							console.log(cn1);
+							new sap.m.MessageToast.show(cn1, {
+								duration: 10000,                 
+								my: "center center",             
+								at: "center center",             
+								offset: "50 50"
+							});
+						}
+					})
+				] 
+            })
         });
         var app = sap.m.App();
         app.addPage(page);
-        
+
         app.placeAt("content");
     </script>
 
