@@ -54,7 +54,8 @@
                     value: "{value}"
                 }),
 		new sap.m.Button({
-                    text:"delete",
+                    //text:"delete",
+                    icon:"sap-icon://delete",
 			press : function(oEvent){
 				var spath = oEvent.getSource().getBindingContext().sPath;
 				var idx = spath.slice(-1);
@@ -73,7 +74,8 @@
             content: [
                 new sap.m.ToolbarSpacer(),
                 new sap.m.Button({
-                    text: "add",
+                    //text: "add",
+                    icon:"sap-icon://add",
                     type: sap.m.ButtonType.Accept,
                     press: function() {
                         dynamicProperties = sap.ui.getCore().byId('tablepd').getModel().getData();
