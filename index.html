@@ -6,7 +6,11 @@
     <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
 
 
-    <script src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" id="sap-ui-bootstrap" data-sap-ui-libs="sap.ui.commons,sap.ui.table,sap.m" data-sap-ui-theme="sap_bluecrystal">
+    <script 
+    	src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" 
+    	id="sap-ui-bootstrap" 
+    	data-sap-ui-libs="sap.ui.commons,sap.ui.table,sap.m"
+    	data-sap-ui-theme="sap_bluecrystal">
     </script>
     <!-- add sap.ui.table,sap.ui.ux3 and/or other libraries to 'data-sap-ui-libs' if required -->
 
@@ -96,17 +100,12 @@
         oTable.setModel(oModel);
 
         var page = sap.m.Page({
-            title: "Tracking Services",
-            content: oTable,
-            showNavButton: true,
-            navButtonTap: function() {
-                
-            }
+            title: "Dynamic Table",
+            content: oTable
         });
         var app = sap.m.App();
         app.addPage(page);
-        app.setBackgroundImage("img/3.jpg");
-
+        
         app.placeAt("content");
     </script>
 
